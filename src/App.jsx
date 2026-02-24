@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { supabase } from './supabaseClient';
-import Login from './components/Login';
+import Login from './components/LandingPage';
 import RegistrationForm from './components/RegistrationForm';
 
 function App() {
@@ -54,11 +54,11 @@ function App() {
   }
 
   return (
-    <div className="flex w-full min-h-screen items-center justify-center p-4 sm:p-8 bg-brand-bg font-inter w-full">
+    <div className="flex w-full min-h-screen items-center justify-center bg-brand-bg font-inter w-full">
       {!session ? (
         <Login error={authError} />
       ) : (
-        <div className="w-full max-w-[1020px] mx-auto flex flex-col items-end">
+        <div className="w-full max-w-[1020px] mx-auto flex flex-col items-end p-4 sm:p-8">
           <div className="flex justify-end mb-6">
             <button
               className="bg-white/60 hover:bg-white text-brand-text-muted hover:text-brand-error border border-brand-border/60 hover:border-red-200 shadow-sm backdrop-blur-sm px-4 py-2 text-sm font-medium rounded-full cursor-pointer transition-all duration-300 flex items-center gap-2 group"
