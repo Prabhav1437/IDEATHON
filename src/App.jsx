@@ -47,25 +47,25 @@ function App() {
 
   if (loading) {
     return (
-      <div className="container" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-        <div className="spinner" style={{ borderTopColor: 'var(--primary-color)', borderWidth: '4px', width: '40px', height: '40px' }}></div>
+      <div className="flex w-full min-h-screen items-center justify-center bg-brand-bg">
+        <div className="spinner !w-12 !h-12 !border-[4px] !border-brand-primary/20 !border-t-brand-primary drop-shadow-md"></div>
       </div>
     );
   }
 
   return (
-    <div className="container">
+    <div className="flex w-full min-h-screen items-center justify-center p-4 sm:p-8 bg-brand-bg font-inter w-full">
       {!session ? (
         <Login error={authError} />
       ) : (
-        <div style={{ width: '100%', maxWidth: '700px' }}>
-          <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: '1rem', width: '100%' }}>
+        <div className="w-full max-w-[1020px] mx-auto flex flex-col items-end">
+          <div className="flex justify-end mb-6">
             <button
-              className="btn-danger"
+              className="bg-white/60 hover:bg-white text-brand-text-muted hover:text-brand-error border border-brand-border/60 hover:border-red-200 shadow-sm backdrop-blur-sm px-4 py-2 text-sm font-medium rounded-full cursor-pointer transition-all duration-300 flex items-center gap-2 group"
               onClick={handleSignOut}
-              style={{ padding: '0.5rem 1rem', width: 'auto', fontSize: '0.875rem' }}
             >
-              Sign Out ({session.user.email})
+              <span>Sign Out ({session.user.email})</span>
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-log-out opacity-70 group-hover:opacity-100"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" /><polyline points="16 17 21 12 16 7" /><line x1="21" x2="9" y1="12" y2="12" /></svg>
             </button>
           </div>
           <RegistrationForm session={session} />
