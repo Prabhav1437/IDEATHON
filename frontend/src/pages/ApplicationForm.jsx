@@ -222,7 +222,7 @@ const ApplicationForm = ({ user }) => {
         setError('');
 
         try {
-            const apiUrl = import.meta.env.VITE_API_URL || '';
+            const apiUrl = import.meta.env.VITE_API_URL || 'https://overclock-9ijn.onrender.com';
             const response = await fetch(`${apiUrl}/api/submissions`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
