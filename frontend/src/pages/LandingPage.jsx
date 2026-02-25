@@ -23,7 +23,8 @@ import {
     Layers,
     MapPin,
     Flag,
-    Plus
+    Plus,
+    ChevronRight
 } from 'lucide-react';
 import { supabase } from '../lib/supabase';
 
