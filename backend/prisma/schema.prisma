@@ -1,0 +1,43 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+    provider = "prisma-client-js"
+}
+
+datasource db {
+    provider = "postgresql"
+    url      = env("DATABASE_URL")
+}
+
+model Submission {
+    id              Int      @id @default(autoincrement())
+    teamName        String   @unique @map("team_name")
+    leaderName      String   @map("leader_name")
+    leaderEmail     String   @map("leader_email")
+    leaderURN       String   @map("leader_urn")
+    leaderGithub    String   @map("leader_github")
+    leaderLinkedin  String?  @map("leader_linkedin")
+    leaderPhone     String   @map("leader_phone")
+    leaderBatch     String   @map("leader_batch")
+    member1Name     String   @map("member1_name")
+    member1Email    String   @map("member1_email")
+    member1URN      String   @map("member1_urn")
+    member1Github   String   @map("member1_github")
+    member1Linkedin String?  @map("member1_linkedin")
+    member1Phone    String   @map("member1_phone")
+    member1Batch    String   @map("member1_batch")
+    member2Name     String   @map("member2_name")
+    member2Email    String   @map("member2_email")
+    member2URN      String   @map("member2_urn")
+    member2Github   String   @map("member2_github")
+    member2Linkedin String?  @map("member2_linkedin")
+    member2Phone    String   @map("member2_phone")
+    member2Batch    String   @map("member2_batch")
+    teamSize        Int      @map("team_size")
+    college         String
+    createdAt       DateTime @default(now()) @map("created_at")
+
+    @@unique([leaderEmail, teamName])
+    @@map("submissions")
+}

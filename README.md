@@ -1,16 +1,45 @@
-# React + Vite
+# IDEATHON 2026 - PERN Stack Application
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A full-stack hackathon submission platform built with PostgreSQL, Express, React, and Node.js.
 
-Currently, two official plugins are available:
+## Prerequisites
+- Node.js installed
+- PostgreSQL (Neon DB recommended)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Setup Instructions
 
-## React Compiler
+### 1. Database Setup
+Create the `submissions` table using the SQL in `backend/schema.sql`:
+```sql
+CREATE TABLE submissions (
+    id SERIAL PRIMARY KEY,
+    team_name TEXT NOT NULL,
+    leader_name TEXT NOT NULL,
+    leader_email TEXT NOT NULL,
+    team_size INTEGER,
+    college TEXT,
+    track TEXT,
+    project_title TEXT,
+    project_description TEXT,
+    repo_link TEXT,
+    demo_link TEXT,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+    UNIQUE (leader_email, team_name)
+);
+```
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+### 2. Backend Setup
+1. `cd backend`
+2. `npm install`
+3. Create `.env` from `.env.example` and add your `DATABASE_URL`.
+4. `node index.js` (Server starts on port 5000)
 
-## Expanding the ESLint configuration
+### 3. Frontend Setup
+1. `cd frontend`
+2. `npm install`
+3. `npm run dev` (Vite dev server starts)
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## Tech Stack
+- **Frontend**: React, React Router, Tailwind CSS, Lucide Icons
+- **Backend**: Express.js, pg (PostgreSQL client)
+- **Database**: PostgreSQL (Neon DB)

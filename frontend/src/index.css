@@ -1,0 +1,80 @@
+@import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+@theme {
+  --color-brand-primary: #0066FF;
+  --color-brand-secondary: #000000;
+  --color-brand-accent: #E5E7EB;
+
+  --color-brand-bg: #FFFFFF;
+  --color-brand-surface: #F9FAFB;
+  --color-brand-border: #E5E7EB;
+
+  --color-brand-text: #000000;
+  --color-brand-text-muted: #374151;
+
+  --font-inter: 'Inter', sans-serif;
+
+  --radius-brand: 0.5rem;
+  --radius-brand-lg: 0.75rem;
+
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+}
+
+@layer base {
+  body {
+    @apply bg-brand-bg text-brand-text font-inter antialiased selection:bg-brand-primary selection:text-white scroll-smooth;
+    margin: 0;
+    min-height: 100vh;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply font-inter font-bold tracking-tight;
+  }
+}
+
+@layer utilities {
+  .saas-card {
+    @apply bg-white border border-brand-border rounded-brand shadow-sm transition-all;
+  }
+
+  .saas-card:hover {
+    @apply shadow-md;
+  }
+
+  .saas-button-primary {
+    @apply bg-brand-primary/90 backdrop-blur-md text-white font-semibold px-6 py-2.5 rounded-brand transition-all hover:bg-brand-primary hover:shadow-lg hover:-translate-y-0.5 active:scale-[0.98] shadow-sm border border-white/10;
+  }
+
+  .saas-button-secondary {
+    @apply bg-white/70 backdrop-blur-md text-brand-secondary border border-brand-border font-semibold px-6 py-2.5 rounded-brand transition-all hover:bg-white/90 active:scale-[0.98] shadow-sm;
+  }
+
+  .saas-button-glass {
+    @apply bg-white/10 backdrop-blur-xl border border-white/20 text-white font-semibold px-6 py-2.5 rounded-brand transition-all hover:bg-white/20 hover:border-white/40 active:scale-[0.98] shadow-xl;
+  }
+
+  .saas-input {
+    @apply w-full bg-white border border-brand-border rounded-brand px-4 py-2.5 text-brand-text placeholder:text-brand-text-muted transition-all focus:outline-none focus:ring-2 focus:ring-brand-primary/20 focus:border-brand-primary;
+  }
+}
+
+/* Custom Scrollbar */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 8px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  @apply bg-transparent;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  @apply bg-brand-border rounded-full hover:bg-gray-300 transition-colors;
+}
