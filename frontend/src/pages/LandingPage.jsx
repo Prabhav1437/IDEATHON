@@ -224,7 +224,7 @@ const LandingPage = ({ user }) => {
                         {[
                             { icon: Layers, title: "Hardware Access", desc: "Utilize on-campus labs and labs resources to move from concept to testable prototype faster.", color: "bg-indigo-50 text-indigo-600" },
                             { icon: Clock, title: "Pure Build Time", desc: "24 hours of uninterrupted engineering. We handle the logistics; you focus on your technical stack.", color: "bg-blue-50 text-blue-600" },
-                            { icon: ShieldCheck, title: "Vetted Peers", desc: "Work alongside a verified group of 300+ builders, product engineers, and technical founders.", color: "bg-slate-50 text-slate-600" },
+                            { icon: ShieldCheck, title: "Vetted Peers", desc: "Work alongside a verified group of 300+ builders and technical peers", color: "bg-slate-50 text-slate-600" },
                             { icon: Activity, title: "Direct Feedback", desc: "Test your prototype with experienced engineers who value functional logic over presentation.", color: "bg-amber-50 text-amber-600" },
                             { icon: Terminal, title: "Concrete Tasks", desc: "Solve specific technical bottlenecks provided by our industry partners. Build what works.", color: "bg-brand-secondary/5 text-brand-secondary" }
                         ].map((item, i) => (

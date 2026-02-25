@@ -60,7 +60,7 @@ const MemberSection = ({ title, prefix, formData, handleChange, batchOptions }) 
             </div>
 
             <div className="space-y-2">
-                <label className="text-xs font-bold uppercase tracking-widest text-black ml-1">Unique Reg. No. (URN) *</label>
+                <label className="text-xs font-bold uppercase tracking-widest text-black ml-1">URN *</label>
                 <input
                     required
                     name={`${prefix}_urn`}
