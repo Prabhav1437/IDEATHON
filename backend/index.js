@@ -62,11 +62,10 @@ app.post('/api/submissions', async (req, res) => {
         return res.status(400).json({ error: 'Missing required fields' });
     }
 
-    // Batch consistency validation
-    if (leader_batch !== member1_batch || leader_batch !== member2_batch) {
-        return res.status(400).json({ error: 'All team members must be from the same batch.' });
+    // Team size validation
+    if (parseInt(team_size) !== 3) {
+        return res.status(400).json({ error: 'Team size must be exactly 3 members' });
     }
-
     if (parseInt(team_size) !== 3) {
         return res.status(400).json({ error: 'Team size must be exactly 3 members' });
     }
