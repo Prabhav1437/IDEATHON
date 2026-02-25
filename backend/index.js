@@ -27,6 +27,7 @@ app.get('/api/submissions', async (req, res) => {
 
 // POST /api/submissions - new submission
 app.post('/api/submissions', async (req, res) => {
+    console.log('New submission request:', req.body);
     const {
         team_name,
         leader_name,

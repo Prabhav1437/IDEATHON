@@ -17,14 +17,15 @@ import {
     Users,
     Clock,
     MapPin,
-    Flag
+    Flag,
+    Sparkles
 } from 'lucide-react';
 import { supabase } from '../lib/supabase';
 
-const MemberSection = ({ title, prefix, isLeader, formData, handleChange, batchOptions }) => (
+const MemberSection = ({ title, prefix, formData, handleChange, batchOptions }) => (
     <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
+        initial={{ opacity: 0, scale: 0.98 }}
+        whileInView={{ opacity: 1, scale: 1 }}
         viewport={{ once: true }}
         className="saas-card p-8 bg-white space-y-8"
     >
@@ -34,46 +35,44 @@ const MemberSection = ({ title, prefix, isLeader, formData, handleChange, batchO
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
             <div className="space-y-2">
-                <label className="text-xs font-bold uppercase tracking-widest text-black ml-1">Full Name</label>
+                <label className="text-xs font-bold uppercase tracking-widest text-black ml-1">Full Name *</label>
                 <input
-                    readOnly={isLeader}
-                    required={!isLeader}
+                    required
                     name={`${prefix}_name`}
                     value={formData[`${prefix}_name`] || ''}
                     onChange={handleChange}
-                    className={`saas-input ${isLeader ? 'bg-brand-surface cursor-not-allowed' : ''}`}
-                    placeholder="Enter your name"
+                    className="saas-input"
+                    placeholder="Enter full name"
                 />
             </div>
 
             <div className="space-y-2">
-                <label className="text-xs font-bold uppercase tracking-widest text-black ml-1">Email Address</label>
+                <label className="text-xs font-bold uppercase tracking-widest text-black ml-1">Email Address *</label>
                 <input
-                    readOnly={isLeader}
-                    required={!isLeader}
+                    required
                     type="email"
                     name={`${prefix}_email`}
                     value={formData[`${prefix}_email`] || ''}
                     onChange={handleChange}
-                    className={`saas-input ${isLeader ? 'bg-brand-surface cursor-not-allowed' : ''}`}
-                    placeholder="Enter your email address"
+                    className="saas-input"
+                    placeholder="Enter email address"
                 />
             </div>
 
             <div className="space-y-2">
-                <label className="text-xs font-bold uppercase tracking-widest text-black ml-1">Unique Reg. No. (URN)</label>
+                <label className="text-xs font-bold uppercase tracking-widest text-black ml-1">Unique Reg. No. (URN) *</label>
                 <input
                     required
                     name={`${prefix}_urn`}
                     value={formData[`${prefix}_urn`] || ''}
                     onChange={handleChange}
                     className="saas-input"
-                    placeholder="Enter your URN"
+                    placeholder="Enter URN"
                 />
             </div>
 
             <div className="space-y-2">
-                <label className="text-xs font-bold uppercase tracking-widest text-black ml-1">Phone Number</label>
+                <label className="text-xs font-bold uppercase tracking-widest text-black ml-1">Phone Number *</label>
                 <input
                     required
                     type="tel"
@@ -82,7 +81,7 @@ const MemberSection = ({ title, prefix, isLeader, formData, handleChange, batchO
                     value={formData[`${prefix}_phone`] || ''}
                     onChange={handleChange}
                     className="saas-input"
-                    placeholder="Enter your Phone Number"
+                    placeholder="Enter phone number"
                 />
             </div>
 
@@ -104,7 +103,7 @@ const MemberSection = ({ title, prefix, isLeader, formData, handleChange, batchO
             </div>
 
             <div className="space-y-2">
-                <label className="text-xs font-bold uppercase tracking-widest text-black ml-1">GitHub Profile</label>
+                <label className="text-xs font-bold uppercase tracking-widest text-black ml-1">GitHub Profile *</label>
                 <input
                     required
                     type="url"
@@ -168,19 +167,19 @@ const ApplicationForm = ({ user }) => {
     const [showRulesModal, setShowRulesModal] = useState(false);
     const [rulesAcknowledged, setRulesAcknowledged] = useState(false);
     const [rulesChecked, setRulesChecked] = useState({
-        originality: false,
         teamSize: false,
-        conduct: false,
-        deadlines: false,
-        dataPrivacy: false
+        namesCorrect: false,
+        emailsCorrect: false,
+        phonesCorrect: false,
+        duration: false
     });
 
     const rules = [
-        { id: 'originality', label: 'I confirm that our project will be an original work created during the hackathon.' },
-        { id: 'teamSize', label: 'I confirm that our team consists of exactly 3 members as per the requirements.' },
-        { id: 'conduct', label: 'I agree to maintain professional conduct and follow the code of conduct.' },
-        { id: 'deadlines', label: 'I understand that all submissions must be made before the stipulated deadlines.' },
-        { id: 'dataPrivacy', label: 'I agree to the collection and use of my team\'s data for event management purposes.' }
+        { id: 'teamSize', label: 'I confirm that there are exactly 3 members in our team.' },
+        { id: 'namesCorrect', label: 'I confirm that all team member names provided are correct.' },
+        { id: 'emailsCorrect', label: 'I confirm that all provided email addresses are correct.' },
+        { id: 'phonesCorrect', label: 'I confirm that all phone numbers are correct.' },
+        { id: 'duration', label: 'I understand that this is a 24-hour engineering hackathon.' }
     ];
 
     const allRulesChecked = Object.values(rulesChecked).every(Boolean);
@@ -213,13 +212,9 @@ const ApplicationForm = ({ user }) => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        if (!formData.agreement || !rulesAcknowledged) {
-            setError('You must read and acknowledge all rules.');
-            return;
-        }
 
-        if (formData.leader_batch !== formData.member1_batch || formData.leader_batch !== formData.member2_batch) {
-            setError('Error: All team members must belong to the same batch.');
+        if (!formData.agreement || !rulesAcknowledged) {
+            setError('Please acknowledge all rules and agree to the terms.');
             return;
         }
 
@@ -239,6 +234,7 @@ const ApplicationForm = ({ user }) => {
             setSuccess(true);
         } catch (err) {
             setError(err.message);
+            console.error('Submission error:', err);
         } finally {
             setLoading(false);
         }
@@ -246,25 +242,101 @@ const ApplicationForm = ({ user }) => {
 
     if (success) {
         return (
-            <div className="min-h-screen flex items-center justify-center p-6 bg-brand-surface font-inter">
+            <div className="min-h-screen flex items-center justify-center p-6 bg-brand-surface font-inter overflow-hidden relative">
+                {/* Background Decoration */}
+                <div className="absolute inset-0 overflow-hidden pointer-events-none">
+                    <motion.div
+                        animate={{
+                            scale: [1, 1.2, 1],
+                            opacity: [0.1, 0.2, 0.1],
+                        }}
+                        transition={{ duration: 10, repeat: Infinity }}
+                        className="absolute -top-[20%] -right-[10%] w-[60%] h-[60%] bg-brand-primary/10 rounded-full blur-[120px]"
+                    />
+                    <motion.div
+                        animate={{
+                            scale: [1, 1.3, 1],
+                            opacity: [0.05, 0.1, 0.05],
+                        }}
+                        transition={{ duration: 15, repeat: Infinity }}
+                        className="absolute -bottom-[20%] -left-[10%] w-[60%] h-[60%] bg-brand-primary/5 rounded-full blur-[100px]"
+                    />
+                </div>
+
                 <motion.div
-                    initial={{ scale: 0.95, opacity: 0 }}
+                    initial={{ scale: 0.8, opacity: 0 }}
                     animate={{ scale: 1, opacity: 1 }}
-                    className="saas-card p-12 max-w-lg text-center space-y-8 shadow-lg"
+                    transition={{ type: "spring", damping: 15 }}
+                    className="saas-card p-12 max-w-lg w-full text-center space-y-10 shadow-2xl bg-white relative z-10"
                 >
-                    <div className="w-20 h-20 bg-green-50 text-green-600 flex items-center justify-center rounded-2xl mx-auto shadow-sm">
-                        <CheckCircle className="w-10 h-10" />
+                    <div className="relative mx-auto w-24 h-24">
+                        <motion.div
+                            initial={{ scale: 0 }}
+                            animate={{ scale: 1 }}
+                            transition={{ delay: 0.2, type: "spring", stiffness: 200 }}
+                            className="w-24 h-24 bg-green-500 text-white flex items-center justify-center rounded-3xl shadow-[0_0_30px_rgba(34,197,94,0.3)]"
+                        >
+                            <CheckCircle className="w-12 h-12" strokeWidth={3} />
+                        </motion.div>
+
+                        {/* Particle burst animation */}
+                        {[...Array(8)].map((_, i) => (
+                            <motion.div
+                                key={i}
+                                initial={{ x: 0, y: 0, scale: 0 }}
+                                animate={{
+                                    x: Math.cos(i * 45 * Math.PI / 180) * 80,
+                                    y: Math.sin(i * 45 * Math.PI / 180) * 80,
+                                    scale: [0, 1, 0]
+                                }}
+                                transition={{ delay: 0.3, duration: 0.8 }}
+                                className="absolute top-1/2 left-1/2 w-2 h-2 rounded-full bg-green-500"
+                            />
+                        ))}
                     </div>
-                    <div className="space-y-3">
-                        <h1 className="text-3xl font-bold text-brand-secondary">Registration Complete</h1>
-                        <p className="text-brand-text-muted leading-relaxed">
-                            Team <span className="text-brand-primary font-bold">{formData.team_name}</span> has been successfully registered for IDEATHON 26.
-                        </p>
+
+                    <div className="space-y-4">
+                        <motion.h1
+                            initial={{ y: 20, opacity: 0 }}
+                            animate={{ y: 0, opacity: 1 }}
+                            transition={{ delay: 0.4 }}
+                            className="text-4xl font-extrabold text-brand-secondary tracking-tight"
+                        >
+                            Registration <br />Complete
+                        </motion.h1>
+                        <motion.p
+                            initial={{ y: 20, opacity: 0 }}
+                            animate={{ y: 0, opacity: 1 }}
+                            transition={{ delay: 0.5 }}
+                            className="text-brand-text-muted text-lg leading-relaxed"
+                        >
+                            Team <span className="text-brand-primary font-bold px-1.5 py-0.5 bg-brand-primary/10 rounded">{formData.team_name}</span> has been confirmed for <span className="text-brand-secondary font-bold">OverClock 2026</span>.
+                        </motion.p>
                     </div>
-                    <Link to="/" className="saas-button-primary inline-flex items-center gap-2 group">
-                        <ArrowLeft size={18} className="group-hover:-translate-x-1 transition-transform" />
-                        Back to Home
-                    </Link>
+
+                    <motion.div
+                        initial={{ y: 20, opacity: 0 }}
+                        animate={{ y: 0, opacity: 1 }}
+                        transition={{ delay: 0.6 }}
+                        className="pt-4"
+                    >
+                        <Link
+                            to="/"
+                            className="saas-button-primary w-full py-4 text-lg font-bold flex items-center justify-center gap-3 shadow-lg shadow-brand-primary/20 group translate-y-0 active:translate-y-1 transition-all"
+                        >
+                            <ArrowLeft size={20} className="group-hover:-translate-x-1 transition-transform" />
+                            Return to Homepage
+                        </Link>
+                    </motion.div>
+
+                    <motion.p
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        transition={{ delay: 1 }}
+                        className="text-[10px] font-bold uppercase tracking-[0.2em] text-brand-text-muted pt-4"
+                    >
+                        Check your email for next steps
+                    </motion.p>
                 </motion.div>
             </div>
         );
@@ -326,7 +398,7 @@ const ApplicationForm = ({ user }) => {
                 )}
             </AnimatePresence>
 
-            <div className="max-w-7xl mx-auto flex flex-col lg:flex-row min-h-screen">
+            <div className="max-w-7xl mx-auto flex flex-col lg:flex-row h-screen overflow-hidden">
                 {/* Left Column: Event Copy */}
                 <aside className="lg:w-[40%] lg:sticky lg:top-0 h-fit lg:h-screen p-12 lg:p-16 flex flex-col justify-between">
                     <div>
@@ -335,37 +407,37 @@ const ApplicationForm = ({ user }) => {
                         </Link>
 
                         <div className="space-y-8">
-                            <div className="inline-flex items-center gap-2 px-3 py-1 bg-brand-primary/10 text-brand-primary rounded-full text-xs font-bold uppercase tracking-wider">
-                                Feb 28-29, 2026
-                            </div>
+                            <span className="inline-flex items-center gap-2 px-3 py-1 bg-brand-primary/10 text-brand-primary rounded-full text-xs font-bold uppercase tracking-wider">
+                                <Clock size={12} /> Feb 28 - Mar 1, 2026
+                            </span>
                             <h1 className="text-5xl lg:text-7xl font-extrabold tracking-tight text-brand-secondary">
                                 Register your <br />
                                 <span className="text-brand-primary">Team</span>
                             </h1>
                             <p className="text-lg font-medium text-brand-text-muted leading-relaxed max-w-sm">
-                                Ready to build the next major project at ADYPU? Register your team of 3 and start executing.
+                                Join 300+ builders at NST Pune for a 24-hour engineering challenge. Register your team of 3 by Feb 27.
                             </p>
 
                             <div className="grid grid-cols-2 gap-8 pt-8">
                                 <div className="space-y-1">
                                     <p className="text-2xl font-bold text-brand-secondary">24 Hours</p>
-                                    <p className="text-xs font-bold uppercase tracking-widest text-brand-text-muted">Hackathon Duration</p>
+                                    <p className="text-xs font-bold uppercase tracking-widest text-brand-text-muted">Persistence required</p>
                                 </div>
                                 <div className="space-y-1">
                                     <p className="text-2xl font-bold text-brand-secondary">300+</p>
-                                    <p className="text-xs font-bold uppercase tracking-widest text-brand-text-muted">Total Builders</p>
+                                    <p className="text-xs font-bold uppercase tracking-widest text-brand-text-muted">Builders joining</p>
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    <div className="hidden lg:block pt-8 text-[10px] font-bold uppercase tracking-[0.2em] text-brand-text-muted">
-                        NST PUNE | NEWTON SCHOOL
+                    <div className="pt-8 text-[10px] font-bold uppercase tracking-[0.2em] text-black">
+                        NST PUNE | ADYPU CAMPUS
                     </div>
                 </aside>
 
                 {/* Right Column: Form */}
-                <main className="lg:w-[60%] p-8 lg:p-16 bg-white border-l border-brand-border">
+                <main className="lg:w-[60%] h-full overflow-y-auto p-8 lg:p-16 bg-white border-l border-brand-border custom-scrollbar">
                     <div className="max-w-3xl mx-auto space-y-12">
                         {error && (
                             <motion.div
@@ -408,9 +480,9 @@ const ApplicationForm = ({ user }) => {
                                             </div>
                                         </div>
                                         <div className="space-y-2">
-                                            <label className="text-xs font-bold uppercase tracking-widest text-brand-text-muted ml-1">Base Location</label>
+                                            <label className="text-xs font-bold uppercase tracking-widest text-brand-text-muted ml-1">Location</label>
                                             <div className="saas-input bg-brand-border/20 text-brand-secondary font-bold flex items-center justify-center">
-                                                NST Pune
+                                                ADYPU Campus
                                             </div>
                                         </div>
                                     </div>
@@ -418,9 +490,9 @@ const ApplicationForm = ({ user }) => {
                             </motion.div>
 
                             {/* Team Members */}
-                            <MemberSection title="Team Leader" prefix="leader" isLeader={true} formData={formData} handleChange={handleChange} batchOptions={batchOptions} />
-                            <MemberSection title="Team Member 2" prefix="member1" isLeader={false} formData={formData} handleChange={handleChange} batchOptions={batchOptions} />
-                            <MemberSection title="Team Member 3" prefix="member2" isLeader={false} formData={formData} handleChange={handleChange} batchOptions={batchOptions} />
+                            <MemberSection title="Team Leader" prefix="leader" formData={formData} handleChange={handleChange} batchOptions={batchOptions} />
+                            <MemberSection title="Team Member 2" prefix="member1" formData={formData} handleChange={handleChange} batchOptions={batchOptions} />
+                            <MemberSection title="Team Member 3" prefix="member2" formData={formData} handleChange={handleChange} batchOptions={batchOptions} />
 
                             {/* Agreement & Submission */}
                             <div className="space-y-8 pt-12">
@@ -454,10 +526,13 @@ const ApplicationForm = ({ user }) => {
                                     {loading ? (
                                         <>
                                             <div className="w-5 h-5 border-2 border-white border-t-transparent animate-spin rounded-full" />
-                                            processing...
+                                            confining registration...
                                         </>
                                     ) : (
-                                        'Complete Registration'
+                                        <>
+                                            Complete Registration
+                                            <Sparkles size={20} />
+                                        </>
                                     )}
                                 </button>
                             </div>

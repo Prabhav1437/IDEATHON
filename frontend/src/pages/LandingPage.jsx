@@ -14,18 +14,16 @@ import {
     ArrowRight,
     Star,
     Code,
+    CheckCircle,
     Cpu,
-    Globe,
-    ChevronRight,
-    Rocket,
     Clock,
+    ShieldCheck,
+    Activity,
+    Terminal,
+    Layers,
     MapPin,
     Flag,
-    Sparkles,
-    MousePointer2,
-    Smile,
-    Plus,
-    Crosshair
+    Plus
 } from 'lucide-react';
 import { supabase } from '../lib/supabase';
 
@@ -99,17 +97,14 @@ const LandingPage = ({ user }) => {
             </div>
 
             {/* Navigation */}
-            <nav className={`fixed top-0 w-full z-[100] transition-all duration-300 border-b ${scrolled ? 'bg-white/80 backdrop-blur-md border-brand-border py-3' : 'bg-transparent border-transparent py-5'}`}>
+            <nav className={`fixed top-6 left-1/2 -translate-x-1/2 w-[90%] max-w-7xl z-[100] transition-all duration-300 border rounded-2xl ${scrolled ? 'bg-white/40 backdrop-blur-md border-white/20 py-3 shadow-lg' : 'bg-white/20 backdrop-blur-sm border-white/10 py-5 shadow-sm'}`}>
                 <div className="max-w-7xl mx-auto px-6 flex items-center justify-between">
                     <div
                         className="flex items-center gap-2 cursor-pointer group"
                         onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
                     >
-                        <div className="w-8 h-8 bg-brand-primary rounded-lg flex items-center justify-center text-white shadow-sm group-hover:scale-105 transition-transform">
-                            <Rocket size={18} strokeWidth={2.5} />
-                        </div>
-                        <span className="text-xl font-bold tracking-tight text-brand-secondary">
-                            IDEATHON <span className="text-brand-primary">26</span>
+                        <span className="text-xl font-bold tracking-tight text-brand-secondary font-space">
+                            OverClock
                         </span>
                     </div>
 
@@ -160,8 +155,8 @@ const LandingPage = ({ user }) => {
                             <span className="text-brand-primary">Prototypes</span>
                         </h1>
                         <p className="text-xl md:text-2xl text-brand-text-muted max-w-2xl mx-auto leading-relaxed font-medium">
-                            IDEATHON 26 is a 24-hour technical hackathon for 500+ builders at NST Pune.
-                            Industry challenges meet rapid engineering.
+                            OverClock is a 24-hour technical hackathon for 300+ builders at NST Pune.
+                            Starting at 12:00 PM, industry challenges meet rapid engineering.
                         </p>
                     </motion.div>
 
@@ -227,11 +222,11 @@ const LandingPage = ({ user }) => {
 
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                         {[
-                            { icon: Award, title: "Hardware Access", desc: "Utilize on-campus labs and labs resources to move from concept to testable prototype faster.", color: "bg-blue-50 text-blue-600" },
-                            { icon: Zap, title: "Pure Build Time", desc: "24 hours of uninterrupted engineering. We handle the logistics; you focus on your technical stack.", color: "bg-purple-50 text-purple-600" },
-                            { icon: Cpu, title: "Vetted Peers", desc: "Work alongside a verified group of 500+ builders, product engineers, and technical founders.", color: "bg-green-50 text-green-600" },
-                            { icon: Users, title: "Direct Feedback", desc: "Test your prototype with experienced engineers who value functional logic over presentation.", color: "bg-orange-50 text-orange-600" },
-                            { icon: Globe, title: "Concrete Tasks", desc: "Solve specific technical bottlenecks provided by our industry partners. Build what works.", color: "bg-cyan-50 text-cyan-600" }
+                            { icon: Layers, title: "Hardware Access", desc: "Utilize on-campus labs and labs resources to move from concept to testable prototype faster.", color: "bg-indigo-50 text-indigo-600" },
+                            { icon: Clock, title: "Pure Build Time", desc: "24 hours of uninterrupted engineering. We handle the logistics; you focus on your technical stack.", color: "bg-blue-50 text-blue-600" },
+                            { icon: ShieldCheck, title: "Vetted Peers", desc: "Work alongside a verified group of 300+ builders, product engineers, and technical founders.", color: "bg-slate-50 text-slate-600" },
+                            { icon: Activity, title: "Direct Feedback", desc: "Test your prototype with experienced engineers who value functional logic over presentation.", color: "bg-amber-50 text-amber-600" },
+                            { icon: Terminal, title: "Concrete Tasks", desc: "Solve specific technical bottlenecks provided by our industry partners. Build what works.", color: "bg-brand-secondary/5 text-brand-secondary" }
                         ].map((item, i) => (
                             <motion.div
                                 key={i}
@@ -259,7 +254,7 @@ const LandingPage = ({ user }) => {
                         <span className="text-brand-primary font-bold uppercase tracking-widest text-sm">Timeline</span>
                         <h2 className="text-4xl md:text-5xl font-extrabold tracking-tight text-brand-secondary">Hackday Roadmap</h2>
                         <p className="text-brand-text-muted text-lg max-w-2xl">
-                            Key milestones for IDEATHON 26. Bookmark these dates.
+                            Key milestones for OverClock. Bookmark these dates.
                         </p>
                     </div>
 
@@ -268,10 +263,9 @@ const LandingPage = ({ user }) => {
                         <div className="absolute left-[23px] md:left-1/2 top-0 bottom-0 w-px bg-brand-border md:-translate-x-1/2" />
 
                         {[
-                            { step: "01", date: "FEB 25", label: "Registration Opens", status: "Active" },
-                            { step: "02", date: "MAR 10", label: "Registration Closes", status: "Upcoming" },
-                            { step: "03", date: "MAR 15", label: "Hackathon Day", status: "Event" },
-                            { step: "04", date: "MAR 16", label: "Project Showdown", status: "Finale" }
+                            { step: "01", date: "FEB 27 - 8:00 PM", label: "Registration Deadline", status: "Active" },
+                            { step: "02", date: "FEB 28 - 12:00 PM", label: "OverClock Starts", status: "Upcoming" },
+                            { step: "03", date: "MAR 01 - EVENING", label: "Winners Announcement", status: "Finale" }
                         ].map((item, i) => (
                             <motion.div
                                 key={i}
@@ -320,13 +314,6 @@ const LandingPage = ({ user }) => {
                                 <h4 className="text-base font-bold text-brand-secondary mb-1">Address</h4>
                                 <p className="text-sm text-brand-text-muted">ADYPU Campus, Lohegaon, Pune, Maharashtra</p>
                             </div>
-                            <div className="saas-card p-6 bg-white">
-                                <div className="w-10 h-10 rounded-lg bg-indigo-50 text-indigo-600 flex items-center justify-center mb-4">
-                                    <Globe size={20} />
-                                </div>
-                                <h4 className="text-base font-bold text-brand-secondary mb-1">Accessibility</h4>
-                                <p className="text-sm text-brand-text-muted">15 mins from Pune Airport. Well connected by local transit.</p>
-                            </div>
                         </div>
                     </div>
 
@@ -346,13 +333,13 @@ const LandingPage = ({ user }) => {
                                     <MapPin size={32} strokeWidth={2.5} />
                                 </div>
                                 <div>
-                                    <h3 className="text-xl font-bold text-brand-secondary">ADYPU Knowledge City</h3>
+                                    <h3 className="text-xl font-bold text-brand-secondary">4th & 5th floor (SOE) - ADYPU Campus </h3>
                                     <p className="text-sm font-medium text-brand-text-muted">Explore the battleground</p>
                                 </div>
                             </div>
 
                             <div className="absolute bottom-4 left-4 saas-card px-3 py-1.5 bg-white/90 backdrop-blur text-[10px] font-bold uppercase tracking-wider text-brand-secondary">
-                                NST Main Laboratory
+                                NST
                             </div>
                         </motion.div>
                     </div>
@@ -360,17 +347,14 @@ const LandingPage = ({ user }) => {
             </section>
 
             {/* Footer */}
-            <footer className="py-20 bg-brand-secondary text-white px-6">
+            <footer className="py-24 bg-white border-t border-brand-border px-6">
                 <div className="max-w-7xl mx-auto">
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-20">
                         <div className="space-y-6">
                             <div className="flex items-center gap-2">
-                                <div className="w-8 h-8 bg-brand-primary rounded-lg flex items-center justify-center text-white">
-                                    <Rocket size={18} strokeWidth={2.5} />
-                                </div>
-                                <span className="text-xl font-bold tracking-tight">IDEATHON 26</span>
+                                <span className="text-xl font-bold tracking-tight text-brand-secondary font-space">OverClock</span>
                             </div>
-                            <p className="text-gray-400 text-sm leading-relaxed max-w-xs">
+                            <p className="text-brand-text-muted text-sm leading-relaxed max-w-xs">
                                 Newton School of Technology Presents the premier engineering hackathon at NST Pune.
                                 Build the future, one prototype at a time.
                             </p>
@@ -382,11 +366,11 @@ const LandingPage = ({ user }) => {
                             { title: "Social", links: ["Twitter", "LinkedIn", "Instagram"] }
                         ].map((group, i) => (
                             <div key={i} className="space-y-6">
-                                <h4 className="text-white font-bold text-sm uppercase tracking-widest">{group.title}</h4>
+                                <h4 className="text-brand-secondary font-bold text-xs uppercase tracking-widest">{group.title}</h4>
                                 <ul className="space-y-3">
                                     {group.links.map((link, j) => (
                                         <li key={j}>
-                                            <a href="#" className="text-gray-400 text-sm hover:text-brand-primary transition-colors">
+                                            <a href="#" className="text-brand-text-muted text-sm hover:text-brand-primary transition-colors">
                                                 {link}
                                             </a>
                                         </li>
@@ -396,8 +380,8 @@ const LandingPage = ({ user }) => {
                         ))}
                     </div>
 
-                    <div className="pt-8 border-t border-gray-800 flex flex-col md:flex-row justify-between items-center gap-4">
-                        <p className="text-gray-500 text-xs font-medium uppercase tracking-wider">
+                    <div className="pt-8 border-t border-brand-border flex flex-col md:flex-row justify-between items-center gap-4">
+                        <p className="text-brand-text-muted text-[10px] font-bold uppercase tracking-widest">
                             © 2026 Newton School of Technology | NST-Pune
                         </p>
                         <div className="flex items-center gap-6">
