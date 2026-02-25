@@ -222,7 +222,11 @@ const ApplicationForm = ({ user }) => {
         setError('');
 
         try {
-            const apiUrl = import.meta.env.VITE_API_URL || 'https://overclock-9ijn.onrender.com';
+            // Use local proxy in development, use Render URL in production
+            const apiUrl = import.meta.env.MODE === 'production'
+                ? (import.meta.env.VITE_API_URL || 'https://overclock-9ijn.onrender.com')
+                : '';
+
             const response = await fetch(`${apiUrl}/api/submissions`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -527,7 +531,7 @@ const ApplicationForm = ({ user }) => {
                                     {loading ? (
                                         <>
                                             <div className="w-5 h-5 border-2 border-white border-t-transparent animate-spin rounded-full" />
-                                            confining registration...
+                                            confirming registration...
                                         </>
                                     ) : (
                                         <>
