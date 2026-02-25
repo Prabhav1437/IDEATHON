@@ -10,6 +10,7 @@ const PORT = process.env.PORT || 5001;
 const allowedOrigins = [
     'http://localhost:5173',
     'https://overclock-psi.vercel.app',
+    'https://ideathon-beige.vercel.app',
     'https://overclock-9ijn.onrender.com'
 ];
 
