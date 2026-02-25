@@ -10,6 +10,10 @@ const PORT = process.env.PORT || 5001;
 app.use(cors());
 app.use(express.json());
 
+app.head('/', (req, res) => {
+    res.status(200).send();
+})
+
 // GET /api/submissions - for admin view
 app.get('/api/submissions', async (req, res) => {
     try {
