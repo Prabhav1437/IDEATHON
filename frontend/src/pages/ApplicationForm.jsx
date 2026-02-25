@@ -222,7 +222,8 @@ const ApplicationForm = ({ user }) => {
         setError('');
 
         try {
-            const response = await fetch('/api/submissions', {
+            const apiUrl = import.meta.env.VITE_API_URL || '';
+            const response = await fetch(`${apiUrl}/api/submissions`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(formData)
